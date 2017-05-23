@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定工作空间，要与接口名相同，源代码没有去看，猜测应该是通过"这里的namespace.下边方法的id"来定位方法的 -->
+<mapper namespace="com.office.springboot.user.dao.UserDao">
+
+	<!-- 插入用户信息 -->
+	<insert id="insertUser" parameterType="com.office.springboot.user.dto.UserDTO">
+       <![CDATA[
+       INSERT INTO t_user 
+       (
+       	   id_user,
+           username,
+           password
+       )
+       VALUES
+       (
+       	   #{idUser},
+           #{userName},
+           #{password}
+       )
+       ]]>
+	</insert>
+
+
+	<!-- 通过用户名称查询用户 -->
+	<select id="getUserInfo" parameterType="com.office.springboot.user.dto.UserDTO"
+		resultType="com.office.springboot.user.dto.UserDTO">
+		SELECT t.id_user 'idUser',
+		t.username 'userName',
+		t.password 'password'
+		FROM t_user t
+		<trim prefix="WHERE" prefixOverrides="and|or">
+			<if test="idUser!=null and idUser!=''">
+				AND t.id_user=#{idUser}
+			</if>
+			<if test="userName!=null and userName!=''">
+				AND t.username=#{userName}
+			</if>
+			<if test="password!=null and password!=''">
+				AND t.password=#{password}
+			</if>
+		</trim>
+		LIMIT 1
+	</select>
+</mapper>
