@@ -5,7 +5,7 @@
 	<groupId>com.office</groupId>
 	<artifactId>hl-template-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>hl-template-app</name>
 	<url>http://maven.apache.org</url>
@@ -109,22 +109,11 @@
 			<version>${fastjson.version}</version>
 		</dependency>
 
-		<!-- API -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.6.1</version>
-		</dependency>
-
 	</dependencies>
 
 	<!-- Package as an executable jar -->
 	<build>
+		<finalName>demo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
