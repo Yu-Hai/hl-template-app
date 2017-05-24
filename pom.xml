@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.office</groupId>
-	<artifactId>springboot</artifactId>
+	<artifactId>hl-template-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
-	<name>springboot</name>
+	<name>hl-template-app</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
