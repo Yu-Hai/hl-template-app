@@ -53,9 +53,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 					.append(DateFormatUtils.formatDate(new Date(), DateFormatUtils.FORMAT_YYYYMMDD))
 					.append(String.format("%08d", seq));
 			user.setIdUser(idUser.toString());
-			logger.trace("新增用户：" + user.toString());
+			logger.info("新增用户：" + user.toString());
 			userDao.insertUser(user);
-			logger.trace("新增用户成功");
+			logger.info("新增用户成功");
 			return idUser.toString();
 		} catch (Exception e) {
 			logger.error("新增用户【失败】" + user.toString());

@@ -2,6 +2,7 @@ package com.office.springboot.common.form;
 
 import com.office.springboot.common.constant.CommonConstant.ResponseStatus;
 import com.office.springboot.common.constant.ResponseStatusCode;
+import com.office.springboot.common.util.Bean2String;
 
 /**
  * 公共的返回Form
@@ -77,4 +78,8 @@ public class CommonBaseForm extends BaseForm {
 		this.returnMsg = "缺少必要的入参";
 	}
 
+	@Override
+	public String toString() {
+		return Bean2String.bean2String(this);
+	}
 }

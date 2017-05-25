@@ -27,7 +27,7 @@ public class PropertiesUtil {
 		try {
 			scmsStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(PROPERTIES_EGIS_FILE_NAME);
 			context_egis_scms_app.load(scmsStream);
-			logger.trace("PropertiesUtil", "staitc init prop", context_egis_scms_app.toString());
+			logger.info("PropertiesUtil", "staitc init prop", context_egis_scms_app.toString());
 
 		} catch (Exception e) {
 		} finally {

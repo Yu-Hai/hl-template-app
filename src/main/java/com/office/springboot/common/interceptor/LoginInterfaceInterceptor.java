@@ -1,5 +1,6 @@
 package com.office.springboot.common.interceptor;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class LoginInterfaceInterceptor extends HandlerInterceptorAdapter impleme
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String url = request.getRequestURI();
-		logger.trace("请求url：" + url);
+		logger.info("请求url：" + url+",请求参数："+request.getQueryString());
 		if (url.contains("/do/") || url.endsWith(".do")) {
 			if (needLogin(request)) {
 				Map<String, Object> map = new HashMap<String, Object>();
@@ -78,7 +79,7 @@ public class LoginInterfaceInterceptor extends HandlerInterceptorAdapter impleme
 		String isNeedLogin = PropertiesUtil.getProperty("isNeedLogin");
 		// 从Session中获取当前用户的ID
 		UserDTO currentUser =  (UserDTO) request.getSession().getAttribute(SessionAttributeNames.CURRENT_USER);
-		logger.trace("SessionAttributeNames.CURRENT_USER:" + currentUser);
+		logger.info("SessionAttributeNames.CURRENT_USER:" + currentUser);
 		if ("true".equals(isNeedLogin)) {
 			if (currentUser == null) {
 				return true;
@@ -89,5 +90,4 @@ public class LoginInterfaceInterceptor extends HandlerInterceptorAdapter impleme
 		}
 		return true;
 	}
-
 }

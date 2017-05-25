@@ -3,8 +3,7 @@ package com.office.springboot.user.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,7 +28,7 @@ import com.office.springboot.user.service.UserService;
 @RestController
 public class UserController {
 
-	private static Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static Logger logger = Logger.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;
@@ -50,7 +49,7 @@ public class UserController {
 
 	@RequestMapping("/app/user/getUserInfo")
 	public UserDTO getUserInfo(@ModelAttribute UserDTO user) {
-		logger.trace("获取用户信息【入参】：" + user.toString());
+		logger.info("获取用户信息【入参】：" + user.toString());
 		UserDTO result = new UserDTO();
 		try {
 			result = userService.getUserInfo(user);
@@ -58,40 +57,50 @@ public class UserController {
 		} catch (Exception e) {
 			result.setErrorForm();
 		}
-		logger.trace("获取用户信息【出参】：" + result.toString());
+		logger.info("获取用户信息【出参】：" + result.toString());
 		return result;
 	}
 
 	@RequestMapping("/app/user/userRegister.dox")
 	public BaseObjectForm insertUser(@ModelAttribute UserDTO user) {
-		logger.trace("新增用户【入参】：" + user.toString());
+		logger.info("新增用户【入参】：" + user.toString());
 		BaseObjectForm result = new BaseObjectForm();
+		String errorInfo=ValidateParamsUtils.checkParams(user, "userName","password");
+		if(StringUtils.isNotEmpty(errorInfo)){
+			result.setValidateFailForm();
+			logger.info("新增用户【出参】：" + result.toString());
+			return result;
+		}
 		try {
 			String userId = userService.insertUserWithBackId(user);
 			result.setData(userId);
 			result.setSuccessForm("新增成功！");
 		} catch (Exception e) {
+			logger.error("新增用户发生【异常】："+e);
 			result.setErrorForm();
 		}
-		logger.trace("新增用户【出参】：" + result.toString());
+		logger.info("新增用户【出参】：" + result.toString());
 		return result;
 	}
 
 	@RequestMapping("/app/user/userLogin.dox")
 	public CommonBaseForm userLogin(HttpServletRequest request, @ModelAttribute UserDTO user) {
-		logger.trace("用户登录【入参】：" + user.toString());
+		logger.info("用户登录【入参】：" + user.toString());
 		CommonBaseForm result = new CommonBaseForm();
 		String errorMsg = ValidateParamsUtils.checkParams(user, "userName", "password");
 		if (StringUtils.isNotBlank(errorMsg)) {
 			result.setValidateFailForm();
-			logger.trace("用户登录【出参】：" + user.toString());
+			logger.info("用户登录【出参】：" + result.toString());
 			return result;
 		}
 		UserDTO currentUser = userService.getUserInfo(user);
 		if (currentUser.getPassword().equals(user.getPassword())) {
 			SessionManagerUtils.addOrUpdateSessionInfo(request, SessionAttributeNames.CURRENT_USER, currentUser);
+			result.setSuccessForm("认证成功！");
+		}else{
+			result.setLoginFailForm();
 		}
-		logger.trace("用户登录【出参】：" + user.toString());
+		logger.info("用户登录【出参】：" + result.toString());
 		return result;
 	}
 
