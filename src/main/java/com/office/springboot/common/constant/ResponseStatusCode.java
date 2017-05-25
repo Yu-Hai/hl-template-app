@@ -9,7 +9,7 @@ package com.office.springboot.common.constant;
 public class ResponseStatusCode {
 	/** 正常返回 **/
 	public static final String RESPONSE_OK = "200";
-	/** 回话超时 **/
+	/** 用户认证失败,请重新登陆 **/
 	public static final String SESSION_TIME_OUT = "50001";
 	/** 权限校验失败 **/
 	public static final String VALIDATE_FAIL_FLAG = "50002";
